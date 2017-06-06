@@ -5,11 +5,14 @@ sname2=$(cat config/sname2)
 NN1=$(cat config/current_state)
 NN2=$(cat config/do_next)
 studentID=$(cat config/sID)
+status=$(cat config/status)
+mode=$(cat config/mode)
+progr=$(cat config/progr)
 DATE="not_set"
 PROPOSED_DATE="not_set"
 while [ -z "$GEN" ]
 do
-CHANGE_WHAT=$(dialog --menu "What to change" 30 40 20 1 "Current state " 2 "Actions to take" meeting_date "$DATE" n_meeting_date "$PROPOSED_DATE" sign "Change signature" ssign1 "Change supervisor signature" generate "Generate docx" name "$myname" sID "$studentID" supervisor1 "$sname1" supervisor2 "$sname2" progr "Programme" --output-fd 1)
+CHANGE_WHAT=$(dialog --menu "What to change" 30 40 20 1 "Current state " 2 "Actions to take" meeting_date "$DATE" n_meeting_date "$PROPOSED_DATE" sign "Change signature" ssign1 "Change supervisor signature" generate "Generate docx" name "$myname" sID "$studentID" supervisor1 "$sname1" supervisor2 "$sname2" progr "$progr" status "$status" mode "$mode" --output-fd 1)
 case $CHANGE_WHAT in
 	1)
 		NN1=$(dialog --editbox config/current_state 30 80 --output-fd 1)
@@ -44,15 +47,24 @@ case $CHANGE_WHAT in
 		studentID=$(dialog --inputbox "Enter your studentID:" 8 40 --output-fd 1) 
 		echo $studentID > config/sID ;;
 	progr)
-		programme=$(dialog --menu "pick one" 20 40 10 MPhil "MPhil" PhD "PhD" --output-fd 1) 
-		echo $programme > config/programme ;;
+		progr=$(dialog --menu "Program of Study" 0 0 2 MPhil "" PhD "" --output-fd 1) 
+		echo $progr > config/progr ;;
+	status)
+		status=$(dialog --menu "Study Status" 0 0 3 Home "" EU "" International "" --output-fd 1)
+		echo $status > config/status ;;
+	mode)
+		mode=$(dialog --menu "pick one" 0 0 2 "Full time" "" "Part time" "" --output-fd 1) 
+		echo $mode > config/mode ;;
+
 esac
 done
 cp -r template tmp
 sed -i'' "s/MYNAME/$(cat config/myname)/" tmp/word/document.xml
 sed -i'' "s/SNAME1/$(cat config/sname1)/" tmp/word/document.xml
 sed -i'' "s/SNAME2/$(cat config/sname2)/" tmp/word/document.xml
-sed -i'' "s/PROGRAMME_HERE/$(cat config/programme)/" tmp/word/document.xml
+sed -i'' "s/PROGRAMME_HERE/$(cat config/progr)/" tmp/word/document.xml
+sed -i'' "s/STUDENT_STATUS_HERE/$(cat config/status)/" tmp/word/document.xml
+sed -i'' "s/MODE_OF_STUDY_HERE/$(cat config/mode)/" tmp/word/document.xml
 sed -i'' "s/TEXTAREA1/$(cat config/current_state)/" tmp/word/document.xml
 sed -i'' "s/TEXTAREA2/$(cat config/do_next)/" tmp/word/document.xml
 sed -i'' "s/2017-04-24/$DATE/" tmp/word/document.xml
