@@ -696,7 +696,7 @@
                 <w:b/>
                 <w:bCs/>
               </w:rPr>
-              <w:t>Enrolment Date</w:t>
+              <w:t>Enrollment Date</w:t>
             </w:r>
           </w:p>
         </w:tc>
@@ -813,7 +813,7 @@
               </w:sdtPr>
               <w:sdtContent>
                 <w:r>
-                  <w:t>EU</w:t>
+                  <w:t>STUDENT_STATUS_HERE</w:t>
                 </w:r>
               </w:sdtContent>
             </w:sdt>
@@ -884,7 +884,7 @@
               </w:sdtPr>
               <w:sdtContent>
                 <w:r>
-                  <w:t>Full time</w:t>
+                  <w:t>MODE_OF_STUDY_HERE</w:t>
                 </w:r>
               </w:sdtContent>
             </w:sdt>
